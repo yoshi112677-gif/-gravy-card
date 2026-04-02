@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Gravy - Trading Card</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Sans+JP:wght@400;700&display=swap');
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at center, #1a0a2e 0%, #0a0010 100%);
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    .card {
+      width: 280px;
+      border-radius: 16px;
+      padding: 4px;
+      background: linear-gradient(135deg, #d4a017, #f5e06b, #b8860b, #ffd700, #c8960c);
+      box-shadow:
+        0 0 30px rgba(255, 215, 0, 0.6),
+        0 0 60px rgba(255, 165, 0, 0.3),
+        0 20px 60px rgba(0,0,0,0.8);
+      animation: shine 3s ease-in-out infinite;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .card:hover {
+      transform: scale(1.03) rotate(-1deg);
+    }
+
+    @keyframes shine {
+      0%, 100% { box-shadow: 0 0 30px rgba(255,215,0,0.6), 0 0 60px rgba(255,165,0,0.3), 0 20px 60px rgba(0,0,0,0.8); }
+      50% { box-shadow: 0 0 50px rgba(255,215,0,1), 0 0 100px rgba(255,165,0,0.6), 0 20px 60px rgba(0,0,0,0.8); }
+    }
+
+    .card-inner {
+      background: linear-gradient(160deg, #1a0a2e 0%, #2d1b4e 40%, #1a0a2e 100%);
+      border-radius: 13px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px 6px;
+    }
+
+    .card-name {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffd700;
+      text-shadow: 0 0 10px rgba(255,215,0,0.8);
+      letter-spacing: 2px;
+    }
+
+    .card-hp {
+      font-size: 13px;
+      color: #e0c060;
+      font-weight: 700;
+    }
+
+    .card-hp span {
+      font-size: 20px;
+      color: #ffd700;
+      font-family: 'Cinzel', serif;
+    }
+
+    .card-type {
+      text-align: center;
+      font-size: 10px;
+      color: #b090d0;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 2px 0 6px;
+    }
+
+    .card-image-area {
+      margin: 0 12px;
+      border-radius: 8px;
+      border: 2px solid rgba(255,215,0,0.4);
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(135deg, #0d0020, #1a0535, #0d0020);
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gravy-art {
+      font-size: 80px;
+      line-height: 1;
+      filter: drop-shadow(0 0 20px rgba(255,200,100,0.8));
+      animation: float 2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .card-image-area::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 30%, rgba(255,215,0,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .stars {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      font-size: 12px;
+      color: #ffd700;
+      letter-spacing: 1px;
+    }
+
+    .card-flavor {
+      margin: 8px 14px 4px;
+      padding: 6px 8px;
+      background: rgba(255,215,0,0.07);
+      border-left: 3px solid #ffd700;
+      border-radius: 4px;
+      font-size: 10px;
+      color: #c0a0e0;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .card-divider {
+      border: none;
+      border-top: 1px solid rgba(255,215,0,0.2);
+      margin: 8px 14px;
+    }
+
+    .card-moves {
+      padding: 0 14px;
+    }
+
+    .move {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .move-left {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .move-cost {
+      display: flex;
+      gap: 2px;
+      margin-top: 2px;
+    }
+
+    .cost-symbol {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+    }
+
+    .cost-brown { background: #8B6914; color: #ffd; }
+    .cost-purple { background: #6a0dad; color: #fff; }
+
+    .move-info {}
+
+    .move-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffd700;
+    }
+
+    .move-desc {
+      font-size: 9px;
+      color: #a080c0;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    .move-damage {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: #ffd700;
+      text-shadow: 0 0 8px rgba(255,215,0,0.6);
+      align-self: center;
+    }
+
+    .card-footer {
+      margin: 8px 14px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-weakness {
+      font-size: 9px;
+      color: #a080c0;
+    }
+
+    .card-weakness strong {
+      color: #e080a0;
+    }
+
+    .card-rarity {
+      font-size: 9px;
+      color: #ffd700;
+      letter-spacing: 1px;
+    }
+
+    .card-number {
+      font-size: 9px;
+      color: #6050a0;
+    }
+
+    .holographic-overlay {
+      position: fixed;
+      pointer-events: none;
+      inset: 0;
+    }
+
+    .card-scene {
+      perspective: 1000px;
+    }
+
+    .card {
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg) !important;
+    }
+
+    .card-front, .card-back {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .card-back {
+      position: absolute;
+      inset: 0;
+      transform: rotateY(180deg);
+      border-radius: 13px;
+      background: linear-gradient(160deg, #1a0a2e 0%, #2d1b4e 40%, #1a0a2e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .back-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: #ffd700;
+      text-shadow: 0 0 20px rgba(255,215,0,0.8);
+      letter-spacing: 4px;
+    }
+
+    .back-art {
+      font-size: 64px;
+      filter: drop-shadow(0 0 20px rgba(255,200,100,0.6));
+    }
+
+    .back-pattern {
+      width: 100%;
+      border-top: 1px solid rgba(255,215,0,0.3);
+      border-bottom: 1px solid rgba(255,215,0,0.3);
+      padding: 10px 0;
+      text-align: center;
+      font-size: 10px;
+      color: #b090d0;
+      letter-spacing: 3px;
+    }
+
+    .back-flavor {
+      font-size: 10px;
+      color: #a080c0;
+      font-style: italic;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .back-rarity {
+      font-size: 11px;
+      color: #ffd700;
+      letter-spacing: 2px;
+    }
+
+    .flip-hint {
+      position: fixed;
+      bottom: 20px;
+      font-size: 11px;
+      color: rgba(160,128,192,0.6);
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card-scene">
+  <div class="card" id="card" style="position:relative;">
+    <div class="card-front">
+    <div class="card-inner">
+      <div class="card-header">
+        <div class="card-name">Gravy</div>
+        <div class="card-hp">HP <span>60</span></div>
+      </div>
+      <div class="card-type">★ Small Chonk · Watcher Type ★</div>
+
+      <div class="card-image-area">
+        <div class="gravy-art">🐱</div>
+        <div class="stars">✦ ✦ ✦</div>
+      </div>
+
+      <div class="card-flavor">
+        「入力ボックスの傍らに座り、すべてを見守る。<br>
+        グレイビーは語らないが、すべてを知っている。」
+      </div>
+
+      <hr class="card-divider">
+
+      <div class="card-moves">
+        <div class="move">
+          <div class="move-left">
+            <div class="move-cost">
+              <div class="cost-symbol cost-brown">☕</div>
+            </div>
+            <div class="move-info">
+              <div class="move-name">Speech Bubble</div>
+              <div class="move-desc">相手を混乱させる一言を<br>つぶやく。急所に当たることがある。</div>
+            </div>
+          </div>
+          <div class="move-damage">20</div>
+        </div>
+
+        <div class="move">
+          <div class="move-left">
+            <div class="move-cost">
+              <div class="cost-symbol cost-purple">★</div>
+              <div class="cost-symbol cost-purple">★</div>
+            </div>
+            <div class="move-info">
+              <div class="move-name">Chonk Pounce</div>
+              <div class="move-desc">丸い体当たり。受けた相手は<br>「かわいい…」と動けなくなる。</div>
+            </div>
+          </div>
+          <div class="move-damage">80</div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="card-weakness">弱点: <strong>きゅうり ×2</strong></div>
+        <div class="card-rarity">◆◆◆◆ HOLO RARE</div>
+        <div class="card-number">No. 001/001</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card-back">
+      <div class="back-logo">GRAVY</div>
+      <div class="back-art">🐱</div>
+      <div class="back-pattern">✦ · · · HOLO RARE · · · ✦</div>
+      <div class="back-flavor">
+        無口だが、何でも知っている。<br>
+        語らずして見守る存在。<br>
+        弱点はきゅうり。
+      </div>
+      <div class="back-rarity">No. 001 / 001</div>
+    </div>
+  </div>
+  </div>
+  <div class="flip-hint">クリックでカードを裏返す</div>
+
+  <script>
+    const card = document.getElementById('card');
+    let isFlipped = false;
+
+    card.addEventListener('click', () => {
+      isFlipped = !isFlipped;
+      card.classList.toggle('flipped', isFlipped);
+    });
+
+    card.addEventListener('mousemove', (e) => {
+      if (isFlipped) return;
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `scale(1.03) rotateY(${x * 20}deg) rotateX(${-y * 20}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      if (!isFlipped) card.style.transform = '';
+    });
+  </script>
+</body>
+</html>
